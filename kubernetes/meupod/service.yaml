@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webserver               # Nome do serviço
+spec:   
+  type:  LoadBalancer           # Tipo do serviço
+  selector:                     # Usamos para vincular ao pod
+    app: meunginx               # Uma das tags que atribuímos no meupod.yaml
+  ports:                        # Podemos vincular pela porta em si, ou pelo nome
+    - protocol: TCP
+      port: 80
+      targetPort: webports      # Porta do container (poderia ser 80)

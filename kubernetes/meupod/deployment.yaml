@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: meunginx
+spec:                             # Especificações do deployment
+  replicas: 10
+  selector:
+    matchLabels:                  # Dar um match em todos os componentes que tiverem uma label (app: meunginx)
+      app: meunginx
+  template:                       # Template de pods que vão ser levantados pelo deployment
+    metadata:
+      labels:
+        app: meunginx
+    spec:                         # Especificações do template
+      containers: 
+      - name: webserver
+        image: nginx:1.21.3
+        ports:
+          - name: webports
+            containerPort: 80

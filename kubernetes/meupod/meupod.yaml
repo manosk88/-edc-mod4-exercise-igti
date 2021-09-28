@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web            # nome do pod
+  labels:
+    curso: edc
+    app: meunginx             # Para uso no serviço que usamos para acessar o pod
+spec:
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: webports
+          containerPort: 80
+          protocol: TCP

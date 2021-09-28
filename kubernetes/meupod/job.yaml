@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job                           # Pode ser cron job
+metadata:
+  name: readpandas
+spec:
+  backoffLimit: 3                   # Quantidade máxima de erro permitida
+  activeDeadlineSeconds: 60         # Limite de segundos que o job pode ser executado
+  template:
+      spec:
+        containers:
+        - name: readshow
+          image: mano/exemplo_job:v3
+          env:
+            - name: MINHA_VAR             # Nome da variável de ambiente dentro do pod
+              valueFrom:
+                configMapKeyRef:
+                  name: ambiente          # Nome do ConfigMap criado no arquivo configmap.yaml
+                  key: minha_var          # Chave da variável dentro do configMap.
+          # command: ["python", "/run.py"]
+          command: ["python", "-c", "import os; print(os.environ['MINHA_VAR'])"]
+        restartPolicy: Never
