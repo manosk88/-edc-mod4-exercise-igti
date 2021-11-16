@@ -1,7 +1,7 @@
 from airflow import DAG
 
-from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
-from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
+from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator    # Execute Spark Job
+from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor        # Monitor Spark Job
 from airflow.operators.python_operator import PythonOperator
 from airflow.models import Variable
 import boto3
@@ -25,15 +25,15 @@ def trigger_crawler_final_func():
 with DAG(
     'enem_batch_spark_k8s',
     default_args={
-        'owner': 'Neylson',
+        'owner': 'Manoel',
         'depends_on_past': False,
-        'email': ['neylson.crepalde@a3data.com.br'],
+        'email': ['manosk88@gmail.com'],
         'email_on_failure': False,
         'email_on_retry': False,
         'max_active_runs': 1,
     },
     description='submit spark-pi as sparkApplication on kubernetes',
-    schedule_interval="0 */2 * * *",
+    schedule_interval="0 */2 * * *",    # Run for each 2 hours
     start_date=days_ago(1),
     catchup=False,
     tags=['spark', 'kubernetes', 'batch', 'enem'],
@@ -43,7 +43,7 @@ with DAG(
         namespace="airflow",
         application_file="enem_converte_parquet.yaml",
         kubernetes_conn_id="kubernetes_default",
-        do_xcom_push=True,
+        do_xcom_push=True,                 # True to make possible the Sensor retrieve the status to monitor
     )
 
     converte_parquet_monitor = SparkKubernetesSensor(
@@ -145,5 +145,5 @@ converte_parquet_monitor >> agrega_sexo >> agrega_sexo_monitor
 converte_parquet_monitor >> agrega_notas >> agrega_notas_monitor
 [agrega_idade_monitor, agrega_sexo_monitor, agrega_notas_monitor] >> join_final >> join_final_monitor
 join_final_monitor >> trigger_crawler_final
-[agrega_idade_monitor, agrega_notas_monitor] >> agrega_sexo
-[agrega_idade_monitor, agrega_notas_monitor] >> anonimiza_inscricao
+# [agrega_idade_monitor, agrega_notas_monitor] >> agrega_sexo
+# [agrega_idade_monitor, agrega_notas_monitor] >> anonimiza_inscricao
