@@ -40,11 +40,11 @@ with DAG(
 ) as dag:
 
     converte_parquet = SparkKubernetesOperator(
-        task_id='conv_parq',
+        task_id='conv_parq',                           # Mudei pra ver se resolveria um problema de conexão
         namespace="airflow",
         application_file="enem_converte_parquet.yaml",
         kubernetes_conn_id="kubernetes_default",
-        do_xcom_push=True,                 # True to make possible the Sensor retrieve the status to monitor
+        do_xcom_push=True                 # True to make possible the Sensor retrieve the status to monitor
     )
 
     converte_parquet_monitor = SparkKubernetesSensor(
