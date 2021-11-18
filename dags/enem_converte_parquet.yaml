@@ -19,7 +19,8 @@ spec:
   mode: cluster
   image: "docker.io/neylsoncrepalde/spark-operator:v3.0.0-aws"
   imagePullPolicy: Always
-  mainApplicationFile: s3a://emr-code-539445819062/pyspark/enem_converte_parquet.py
+  # mainApplicationFile: s3a://emr-code-539445819062/pyspark/enem_converte_parquet.py
+  mainApplicationFile: s3://data-lake-igti/airflow-logs/enem_converte_parquet.py 
   sparkVersion: "3.0.0"
   restartPolicy:
     type: Never
