@@ -47,12 +47,5 @@ with DAG(
         do_xcom_push=True                 # True to make possible the Sensor retrieve the status to monitor
     )
 
-    converte_parquet_monitor = SparkKubernetesSensor(
-        task_id='converte_parquet_monitor',
-        namespace="airflow",
-        application_name="{{ task_instance.xcom_pull(task_ids='conv_parq')['metadata']['name'] }}",
-        kubernetes_conn_id="kubernetes_default"
-    )
 
-
-converte_parquet >> converte_parquet_monitor
+converte_parquet 
