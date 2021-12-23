@@ -6,19 +6,11 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.models import Variable
 import boto3
 
-aws_access_key_id = Variable.get('aws_access_key_id')
-aws_secret_access_key = Variable.get('aws_secret_access_key')
-glue = boto3.client('glue', region_name='us-east-1',
-                    aws_access_key_id=aws_access_key_id, 
-                    aws_secret_access_key=aws_secret_access_key)
+
 
 from airflow.utils.dates import days_ago
 
-def trigger_crawler_inscricao_func():
-        glue.start_crawler(Name='enem_anon_crawler')
 
-def trigger_crawler_final_func():
-        glue.start_crawler(Name='enem_uf_final_crawler')
 
 
 
