@@ -40,7 +40,7 @@ with DAG(
 ) as dag:
 
     converte_parquet = SparkKubernetesOperator(
-        task_id='conv_parq',                           # Mudei pra ver se resolveria um problema de conexão
+        task_id='converte_parquet',                           # Mudei pra ver se resolveria um problema de conexão
         namespace="airflow",
         application_file="enem_converte_parquet.yaml",
         kubernetes_conn_id="kubernetes_default",
